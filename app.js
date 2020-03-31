@@ -413,20 +413,21 @@ var chip8Factory = (copy) => {
 
 var keysProto = {
     setKey(key, val) {
+        console.log(key);
         switch(key) {
-            case 1:
+            case '1':
                 this['key1'] = val;
             break;
 
-            case 2:
+            case '2':
                 this['key2'] = val;
             break;
 
-            case 3:
+            case '3':
                 this['key3'] = val;
             break;
 
-            case 4:
+            case '4':
                 this['keyc'] = val;
             break;
 
