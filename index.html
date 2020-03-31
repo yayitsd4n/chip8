@@ -6,6 +6,26 @@
     <title>Chip 8</title>
     <link href="https://fonts.googleapis.com/css?family=VT323&display=swap" rel="stylesheet">
     <style>
+
+        html {
+            --scrollbarBG: #000;
+            --thumbBG: #de8317;
+        }
+        .CPUInfo-lists::-webkit-scrollbar, .StackList-list::-webkit-scrollbar {
+            width: 13px;
+        }
+        .CPUInfo-lists, .StackList-list {
+            scrollbar-width: thin;
+            scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+        }
+        .CPUInfo-lists::-webkit-scrollbar-track, .StackList-list::-webkit-scrollbar-track {
+            border: 3px solid var(--thumbBG);
+            background: var(--scrollbarBG);
+        }
+        .CPUInfo-lists::-webkit-scrollbar-thumb, .StackList-list::-webkit-scrollbar-thumb {
+            background-color: var(--thumbBG);
+        }
+
         body {
             margin: 0;
             font-family: 'VT323', monospace;
@@ -69,6 +89,9 @@
         }
 
         .Welcome {
+            position: relative;
+            top: 9px;
+            margin: 10px 10px 0 10px;
             text-align: center;
         }
         .Welcome::before {
@@ -78,13 +101,17 @@
             position: absolute;
             background: #de8317;
             left: 0;
-            top: 32px;
+            top: calc(50% + -1px);
             z-index: -1;
         }
 
         .Options-group {
             display: flex;
             margin-bottom: 15px;
+        }
+        .Options-group button {
+            margin-left: 10px;
+            padding: 0 20px;
         }
 
         select {
@@ -98,13 +125,11 @@
             font-size: 1.5rem;
             font-family: 'VT323', monospace;
             cursor: pointer;
+            outline: none;
         }
 
         button {
             display: block;
-            float: right;
-            margin: 0 0 0 5%;
-            width: 20%;
             border: 0;
             border-radius: 5px;
             text-decoration: none;
@@ -115,6 +140,7 @@
             line-height: 1;
             cursor: pointer;
             text-align: center;
+            outline: none;
             -webkit-appearance: none;
             -moz-appearance: none;
         }
@@ -214,25 +240,143 @@
         }
 
         @media (min-width: 600px) {
-            .Stack {
-                display: flex;
+            .chip8 {
+                padding-left: 10px;
             }
 
-            .Stack-list {
-                width: 100%;
-                padding: 0;
-                list-style-type: none;
+            .app {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .Stack {
+                display: flex;
+                flex-direction: column;
+                padding: 20px;
+                height: 100vh;
+                flex: 1;
+                background: #000;
+            }
+
+            .StackList {
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+                margin: 0 0 10px;
+                border: 10px solid #000;
+                border-radius: 1px;
+                box-shadow: 0 0 0 5px #de8317;
+            }
+
+            .StackList-heading {
+                position: relative;
+                margin: 0 0 10px;
+                align-self: flex-start;
+                background: #000;
+            }
+            .StackList-heading::after {
+                content: "";
+                position: absolute;
+                top: 50%;
+                width: 300%;
+                height: 1px;
+                border-bottom: 3px solid;
+            }
+            .StackList-heading span {
+                background: #000;
+                padding-right: 10px;
+            }
+
+            .StackList-list {
                 overflow: auto;
-                height: 300px;
+                margin: 0;
+                padding: 0 10px 0 0;
             }
 
             .Stack-item {
-                padding: 10px;
+                padding: 5px 0;
                 cursor: pointer;
+                list-style-type: none;
             }
-            .Stack-item:nth-child(even) {
+            .Stack-item:hover {
                 background: #de8317;
                 color: #000;
+            }
+
+            .CPUInfo {
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                flex: 1;
+                margin: 10px 0 0;
+                border: 10px solid #000;
+                border-radius: 1px;
+                box-shadow: 0 0 0 5px #de8317;
+            }
+            .CPUInfo h2 {
+                margin: 0 0 10px;
+            }
+
+            .CPUInfo-lists {
+                display: flex;
+                overflow: auto;
+            }
+
+            .chip8 {
+                display: flex;
+                flex: 2;
+            }
+
+            .Register {
+                flex: 1;
+                margin: 0 3%;
+            }
+
+            .Register-row {
+                display: flex;
+                justify-content: space-between;
+                height: 26px;
+            }
+
+            .Register-space {
+                flex: 1;
+                margin: 0 7%;
+                height: 1%;
+                border-bottom: 1px dashed;
+            }
+
+            .Register-key, .Register-space, .Register-value {
+                align-self: center;
+            }
+
+            .StackControls {
+                position: relative;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+            }
+            .StackControls::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 50%;
+                width: 100%;
+                border-bottom: 3px solid;
+                z-index: 0;
+            }
+            .StackControls button {
+                margin: 0;
+                padding: 5px 10px;
+                margin: 10px 5px;
+                box-shadow: 0 0 0 5px #000;
+                z-index: 1;
+            }
+            .StackControls button:first-child {
+                box-shadow: 0 0 0 5px #000, -10px 0 0px 0px #000;
+            }
+            .StackControls button:last-child {
+                box-shadow: 0 0 0 5px #000, 10px 0 0px 0px #000;
             }
         }
     </style>
@@ -241,46 +385,46 @@
 <body>
     <div class="app">
         <div class="chip8">
-            
-            <div class="Welcome">
-                <h1>CHIP-8</h1>
-            </div>
-            <p class="js-fps"></p>
-            <canvas width="640" height="320" id="chip8Screen"></canvas>
-            
-            <div class="Options">
-                <div class="Options-group">
-                    <select class="js-game">
-                        <option selected disabled>Pick a ROM</option>
-                        <option value="Blinky">Blinky</option>
-                        <option value="Blitz">Blitz</option>
-                        <option value="Brix">Brix</option>
-                        <option value="Connect4">Connect4</option>
-                        <option value="Guess">Guess</option>
-                        <option value="Hidden">Hidden</option>
-                        <option value="Invaders">Invaders</option>
-                        <option value="Kaleid">Kaleid</option>
-                        <option value="Merlin">Merlin</option>
-                        <option value="Missile">Missile</option>
-                        <option value="Pong">Pong</option>
-                        <option value="Pong2">Pong 2</option>
-                        <option value="Puzzle">Puzzle</option>
-                        <option value="Syzygy">Syzygy</option>
-                        <option value="Tank">Tank</option>
-                        <option value="Tetris">Tetris</option>
-                        <option value="Ticktack">Ticktack</option>
-                        <option value="UFO">UFO</option>
-                        <option value="Vbrix">Vbrix</option>
-                        <option value="Vers">Vers</option>
-                        <option value="Wipeoff">Wipeoff</option>
-                    </select>
-                    <button class="js-loadGame">Start</button>
-                    <button class="js-step">Step</button>
+            <div>
+                <div class="Welcome">
+                    <h1>CHIP-8</h1>
                 </div>
-                <div class="Options-group">
-                    <div class="Speed">
-                        <label for="speed">Game Speed</label>
-                        <input id="speed" name="speed" type="range" min="1" max="50" value="10" />
+                <p class="js-fps"></p>
+                <canvas width="640" height="320" id="chip8Screen"></canvas>
+                
+                <div class="Options">
+                    <div class="Options-group">
+                        <select class="js-game">
+                            <option selected disabled>Pick a ROM</option>
+                            <option value="Blinky">Blinky</option>
+                            <option value="Blitz">Blitz</option>
+                            <option value="Brix">Brix</option>
+                            <option value="Connect4">Connect4</option>
+                            <option value="Guess">Guess</option>
+                            <option value="Hidden">Hidden</option>
+                            <option value="Invaders">Invaders</option>
+                            <option value="Kaleid">Kaleid</option>
+                            <option value="Merlin">Merlin</option>
+                            <option value="Missile">Missile</option>
+                            <option value="Pong">Pong</option>
+                            <option value="Pong2">Pong 2</option>
+                            <option value="Puzzle">Puzzle</option>
+                            <option value="Syzygy">Syzygy</option>
+                            <option value="Tank">Tank</option>
+                            <option value="Tetris">Tetris</option>
+                            <option value="Ticktack">Ticktack</option>
+                            <option value="UFO">UFO</option>
+                            <option value="Vbrix">Vbrix</option>
+                            <option value="Vers">Vers</option>
+                            <option value="Wipeoff">Wipeoff</option>
+                        </select>
+                        <button class="js-loadGame">Start</button>
+                    </div>
+                    <div class="Options-group">
+                        <div class="Speed">
+                            <label for="speed">Game Speed</label>
+                            <input id="speed" name="speed" type="range" min="1" max="50" value="10" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -311,25 +455,140 @@
                     <div class="Keyboard-key">V</div>
                 </div>
             </div>
-
-            <div class="Stack">
-                <ul class="Stack-list js-stack">
-                    <li class="Stack-item">This is a test. Here is some text. Here is some padding.</li>
-                    <li class="Stack-item">This is a test. Here is some text. Here is some padding.</li>
-                    <li class="Stack-item">This is a test. Here is some text. Here is some padding.</li>
-                    <li class="Stack-item">This is a test. Here is some text. Here is some padding.</li>
-                    <li class="Stack-item">This is a test. Here is some text. Here is some padding.</li>
-                    <li class="Stack-item">This is a test. Here is some text. Here is some padding.</li>
-                    <li class="Stack-item">This is a test. Here is some text. Here is some padding.</li>
-                    <li class="Stack-item">This is a test. Here is some text. Here is some padding.</li>
-                    <li class="Stack-item">This is a test. Here is some text. Here is some padding.</li>
-                    <li class="Stack-item">This is a test. Here is some text. Here is some padding.</li>
-                    <li class="Stack-item">This is a test. Here is some text. Here is some padding.</li>
-                    <li class="Stack-item">This is a test. Here is some text. Here is some padding.</li>
-                    <li class="Stack-item">This is a test. Here is some text. Here is some padding.</li>
-                </ul>
+        </div>
+        <div class="Stack">
+            <div class="StackList">
+                <h2 class="StackList-heading">
+                    <span>Stack Trace</span>
+                </h2>
+                <ul class="StackList-list js-stack"></ul>
             </div>
 
+            <div class="StackControls js-stackControls">
+                <button class="js-play">Play</button>
+                <button class="js-pause">Pause</button>
+                <button class="js-step">Step</button>
+            </div>
+
+            <div class="CPUInfo">
+                <h2 class="StackList-heading">
+                    <span>Registers</span>
+                </h2>
+                
+                <div class="CPUInfo-lists">
+                    <div class="Register">
+                        <div class="Register-row">
+                            <div class="Register-key">V0</div>
+                            <div class="Register-space"></div>
+                            <div class="Register-value js-v0">0x--</div>
+                        </div>
+                        <div class="Register-row">
+                            <div class="Register-key">V1</div>
+                            <div class="Register-space"></div>
+                            <div class="Register-value js-v1">0x--</div>
+                        </div>
+                        <div class="Register-row">
+                            <div class="Register-key">V2</div>
+                            <div class="Register-space"></div>
+                            <div class="Register-value js-v2">0x--</div>
+                        </div>
+                        <div class="Register-row">
+                            <div class="Register-key">V3</div>
+                            <div class="Register-space"></div>
+                            <div class="Register-value js-v3">0x--</div>
+                        </div>
+                        <div class="Register-row">
+                            <div class="Register-key">V4</div>
+                            <div class="Register-space"></div>
+                            <div class="Register-value js-v4">0x--</div>
+                        </div>
+                        <div class="Register-row">
+                            <div class="Register-key">V5</div>
+                            <div class="Register-space"></div>
+                            <div class="Register-value js-v5">0x--</div>
+                        </div>
+                        <div class="Register-row">
+                            <div class="Register-key">V6</div>
+                            <div class="Register-space"></div>
+                            <div class="Register-value js-v6">0x--</div>
+                        </div>
+                        <div class="Register-row">
+                            <div class="Register-key">V7</div>
+                            <div class="Register-space"></div>
+                            <div class="Register-value js-v7">0x--</div>
+                        </div>
+                        <div class="Register-row">
+                            <div class="Register-key">V8</div>
+                            <div class="Register-space"></div>
+                            <div class="Register-value js-v8">0x--</div>
+                        </div>
+                        <div class="Register-row">
+                            <div class="Register-key">V9</div>
+                            <div class="Register-space"></div>
+                            <div class="Register-value js-v9">0x--</div>
+                        </div>
+                        <div class="Register-row">
+                            <div class="Register-key">VA</div>
+                            <div class="Register-space"></div>
+                            <div class="Register-value js-v10">0x--</div>
+                        </div>
+                        <div class="Register-row">
+                            <div class="Register-key">VB</div>
+                            <div class="Register-space"></div>
+                            <div class="Register-value js-v11">0x--</div>
+                        </div>
+                        <div class="Register-row">
+                            <div class="Register-key">VC</div>
+                            <div class="Register-space"></div>
+                            <div class="Register-value js-v12">0x--</div>
+                        </div>
+                        <div class="Register-row">
+                            <div class="Register-key">VD</div>
+                            <div class="Register-space"></div>
+                            <div class="Register-value js-v13">0x--</div>
+                        </div>
+                        <div class="Register-row">
+                            <div class="Register-key">VE</div>
+                            <div class="Register-space"></div>
+                            <div class="Register-value js-v14">0x--</div>
+                        </div>
+                        <div class="Register-row">
+                            <div class="Register-key">VF</div>
+                            <div class="Register-space"></div>
+                            <div class="Register-value js-v15">0x--</div>
+                        </div>
+                        
+                    </div>
+                    <div class="Register">
+                        <div class="Register-row">
+                            <div class="Register-key">I</div>
+                            <div class="Register-space"></div>
+                            <div class="Register-value js-i">0x--</div>
+                        </div>
+                        <div class="Register-row">
+                            <div class="Register-key">PC</div>
+                            <div class="Register-space"></div>
+                            <div class="Register-value js-pc">0x--</div>
+                        </div>
+                        <div class="Register-row">
+                            <div class="Register-key">SP</div>
+                            <div class="Register-space"></div>
+                            <div class="Register-value js-sp">0x--</div>
+                        </div>
+                        <div class="Register-row">
+                            <div class="Register-key">DT</div>
+                            <div class="Register-space"></div>
+                            <div class="Register-value js-dt">0x--</div>
+                        </div>
+                        <div class="Register-row">
+                            <div class="Register-key">ST</div>
+                            <div class="Register-space"></div>
+                            <div class="Register-value js-st">0x--</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>
     <script type="module" src="app.js"></script>
