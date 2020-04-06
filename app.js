@@ -46,7 +46,6 @@ var chip8Proto = {
     emulateCycle() {
         let opcode = this.memory[this.pc[0]] << 8 | this.memory[this.pc[0] + 1];
         let instruction = opcode & 0xF000;
-        var subInstruction = opcode & 0x000F;
         let x = (opcode & 0x0F00) >> 8;
         let y = (opcode & 0x00F0) >> 4;
         let n = opcode & 0xF;
@@ -116,7 +115,7 @@ var chip8Proto = {
                 break;
 
             case 0x8000:
-                switch (subInstruction) {
+                switch (opcode & 0x000F) {
                     case 0x0:
                         this.v[x] = this.v[y];
 
@@ -413,7 +412,6 @@ var chip8Factory = (copy) => {
 
 var keysProto = {
     setKey(key, val) {
-        console.log(key);
         switch(key) {
             case '1':
                 this['key1'] = val;
@@ -511,18 +509,17 @@ var UI = {
         });
 
         document.querySelector('.js-stackControls').addEventListener('click', e  => {
- 
-            switch (e.target.className) {
-                case 'js-pause':
-                    this.stackControl('pause');
-                break;
-                case 'js-play':
-                    this.stackControl('play');
-                break;
-                case 'js-step':
-                    this.stackControl('step');
-                break;
-            }
+            if (e.target.classList.contains('js-pause')) {
+                this.stackControl('pause');
+            };
+
+            if (e.target.classList.contains('js-play')) {
+                this.stackControl('play');
+            };
+
+            if (e.target.classList.contains('js-step')) {
+                this.stackControl('step');
+            };
             
         });
 
@@ -617,7 +614,7 @@ var UI = {
         var listItems = '';
 
         stack.theStack.forEach(step => {
-            var li = `<li class="Stack-item">${step.opcode}</li> `;
+            var li = `<li class="StackList-item">${step.opcode}</li> `;
             listItems += li;
         });
 
@@ -723,12 +720,12 @@ var welcome = {
             ctx.fillRect(10, 240, 15, 25);
         }
 
-        ctx.fillText('This is a Chip-8 interperter written in JavaScript.', 10, 20);
+        ctx.fillText('This is a Chip-8 interpreter written in JavaScript.', 10, 20);
         ctx.fillText('Pick a ROM and hit \'Start\'.', 10, 60);
         ctx.fillText('Hit buttons (touch or keys) to figure out the controls.', 10, 100);
         ctx.fillText('Game speed can be adjusted with the slider.', 10, 140);
         ctx.fillText('Debugger can be use pause or step to the next call.', 10, 180);
-        ctx.fillText('You can go back in time with the Stack Trace.', 10, 220);
+        ctx.fillText('You can go back in time (Desktop) with the Stack Trace.', 10, 220);
 
         this.welcomeAnimation = requestAnimationFrame(this.animation.bind(this));
     },
