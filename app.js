@@ -412,7 +412,8 @@ var chip8Factory = (copy) => {
 
 var keysProto = {
     setKey(key, val) {
-        switch(key) {
+        
+        switch(key.toLowerCase()) {
             case '1':
                 this['key1'] = val;
             break;
