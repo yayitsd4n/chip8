@@ -1,0 +1,384 @@
+html {
+    --primaryColor: #de8317;
+    --secondaryColor: #000;
+}
+
+body {
+    margin: 0;
+    font-family: 'VT323', monospace;
+    background: var(--secondaryColor);
+    color: var(--primaryColor);
+}
+body * {
+    box-sizing: border-box;
+}
+
+.AppContainer {
+    margin: 0 auto;
+    padding: 0 10px;
+    max-width: 945px
+}
+
+#chip8Screen {
+    display: block;
+    margin: 0 auto;
+    padding: 5px;
+    width: 100%;
+    max-width: 1024px;
+    background: var(--secondaryColor);
+}
+
+.Chip8Container {
+    display: flex;
+    flex-flow: column;
+    height: 100vh;
+}
+
+.Chip8Container h1 {
+    margin: 10px auto;
+    text-align: center;
+    font-size: 3em;
+    background: var(--secondaryColor);
+    width: 150px;
+}
+
+.Keyboard {
+    flex: 2;
+    max-height: 350px;
+}
+
+.Keyboard-row {
+    display: table;
+    width: 100%;
+    height: 25%;
+    border-spacing: 10px 5px;
+}
+
+.Keyboard-key {
+    display: table-cell;
+    width: 25%;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 2.5em;
+    background: var(--primaryColor);
+    color: var(--secondaryColor);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.Options {
+    padding: 10px 10px 0;
+}
+
+.Banner {
+    position: relative;
+    top: 9px;
+    margin: 10px 15px 0 10px;
+    text-align: center;
+}
+.Banner::before {
+    content: "";
+    width: 100%;
+    height: 5px;
+    position: absolute;
+    background: var(--primaryColor);
+    left: 0;
+    top: calc(50% + -1px);
+    z-index: -1;
+}
+
+.Options-group {
+    display: flex;
+    margin-bottom: 15px;
+}
+.Options-group button {
+    margin-left: 10px;
+    padding: 0 20px;
+}
+
+select {
+    -webkit-appearance: none;
+    padding: 12px;
+    width: 50%;
+    border: 5px solid var(--primaryColor);
+    border-radius: 5px;
+    background: none;
+    background: url('/images/dropdown.png');
+    background-repeat: no-repeat;
+    background-position: 92% center;
+    color: var(--primaryColor);
+    font-size: 1.5rem;
+    font-family: 'VT323', monospace;
+    cursor: pointer;
+    outline: none;
+}
+
+button {
+    display: block;
+    border: 0;
+    border-radius: 5px;
+    text-decoration: none;
+    background: var(--primaryColor);
+    color: var(--secondaryColor);
+    font-family: 'VT323', monospace;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    text-align: center;
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+
+input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    margin: 1em 0;
+    border-radius: 5px;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 8.4px;
+    cursor: pointer;
+    background: var(--primaryColor);
+    border-radius: 5px;        }
+
+input[type=range]::-webkit-slider-thumb {
+    height: 30px;
+    width: 12px;
+    background: var(--primaryColor);
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -11px;
+    border-radius: 5px;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: var(--primaryColor);
+}
+
+input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 8.4px;
+    cursor: pointer;
+    background: var(--primaryColor);
+    border: 0.2px solid #010101;
+}
+
+input[type=range]::-moz-range-thumb {
+    height: 30px;
+    width: 12px;
+    background: var(--primaryColor);
+    cursor: pointer;
+}
+
+input[type=range]::-ms-track {
+    width: 100%;
+    height: 8.4px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+}
+
+input[type=range]::-ms-fill-lower {
+    background: var(--primaryColor);
+}
+
+input[type=range]::-ms-fill-upper {
+    background: var(--primaryColor);
+}
+
+input[type=range]::-ms-thumb {
+    height: 30px;
+    width: 12px;
+    background: var(--primaryColor);
+    cursor: pointer;
+    height: 8.4px;
+}
+
+input[type=range]:focus::-ms-fill-lower {
+    background: var(--primaryColor);
+}
+
+input[type=range]:focus::-ms-fill-upper {
+    background: var(--primaryColor);
+}
+
+.Speed {
+    width: 100%;
+}
+
+.js-fps {
+    margin: 5px 0;
+    padding-left: 5px;
+}
+
+.Debug {
+    display: none;
+}
+
+@media (min-width: 750px) {
+    .Chip8Container {
+        flex: 1.6;
+    }
+
+    .AppContainer {
+        display: flex;
+        flex-direction: row;
+    }
+
+    /* Debug Styles */
+    .Debug {
+        display: flex;
+        flex-direction: column;
+        padding: 10px 10px 20px 20px;
+        height: 100vh;
+        flex: 1;
+        background: var(--secondaryColor);
+    }
+    
+    .DebugCard {
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        margin: 10px 0 0;
+        border: 10px solid var(--secondaryColor);
+        border-radius: 1px;
+        box-shadow: 0 0 0 5px var(--primaryColor);
+    }
+    .DebugCard--registers {
+        max-height: 470px;
+    }
+
+    .DebugCard-heading {
+        position: relative;
+        margin: 0 0 10px;
+        align-self: flex-start;
+        font-size: 1.5em;
+        background: var(--secondaryColor);
+    }
+    .DebugCard-heading::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 300%;
+        height: 1px;
+        border-bottom: 3px solid;
+    }
+    .DebugCard-heading span {
+        background: var(--secondaryColor);
+        padding-right: 10px;
+    }
+
+    .DebugLists {
+        display: flex;
+        overflow: auto;
+    }
+
+    .DebugList {
+        flex: 1;
+        margin: 0 3%;
+        font-size: 1.2em;
+    }
+
+    .DebugList-row {
+        display: flex;
+        justify-content: space-between;
+        height: 26px;
+    }
+    
+    .DebugList-space {
+        flex: 1;
+        margin: 0 7%;
+        height: 1%;
+        border-bottom: 1px dashed;
+    }
+
+    .DebugList-key, .DebugList-space, .DebugList-value {
+        align-self: center;
+    }
+
+    .StackList {
+        overflow: auto;
+        margin: 0;
+        padding: 0 10px 0 0;
+        font-size: 1.2em;
+    }
+
+    .StackList-item {
+        padding: 7px 0;
+        cursor: pointer;
+        list-style-type: none;
+    }
+    .StackList-item:hover {
+        background: var(--primaryColor);
+        color: var(--secondaryColor);
+    }
+
+    /* Scroll bars */
+    .DebugLists::-webkit-scrollbar, .StackList::-webkit-scrollbar {
+        width: 13px;
+    }
+    .DebugLists, .StackList-list {
+        scrollbar-width: thin;
+        scrollbar-color: var(--primaryColor) var(--secondaryColor);
+    }
+    .DebugLists::-webkit-scrollbar-track, .StackList::-webkit-scrollbar-track {
+        border: 3px solid var(--primaryColor);
+        background: var(--secondaryColor);
+    }
+    .DebugLists::-webkit-scrollbar-thumb, .StackList::-webkit-scrollbar-thumb {
+        background-color: var(--primaryColor);
+    }
+   
+    .StackControls {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        margin-top: 10px;
+        justify-content: center;
+    }
+    .StackControls::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        border-bottom: 3px solid var(--primaryColor);
+        z-index: 0;
+    }
+    .StackControls-button {
+        padding: 5px 10px;
+        margin: 10px 5px;
+        width: 20%;
+        height: 38px;
+        box-shadow: 0 0 0 5px var(--secondaryColor);
+        background: var(--primaryColor);
+        background-repeat: no-repeat;
+        background-position: center;
+        z-index: 1;
+    }
+    .StackControls-button--play {
+        background-image: url('/images/play.png');
+    }
+    .StackControls-button--pause {
+        background-image: url('/images/pause.png');
+    }
+    .StackControls-button--next {
+        background-image: url('/images/next.png');
+    }
+    .StackControls-button:first-child {
+        box-shadow: 0 0 0 5px var(--secondaryColor), -10px 0 0px 0px var(--secondaryColor);
+    }
+    .StackControls-button:last-child {
+        box-shadow: 0 0 0 5px var(--secondaryColor), 10px 0 0px 0px var(--secondaryColor);
+    }
+}
