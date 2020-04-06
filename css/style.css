@@ -103,7 +103,7 @@ select {
     border: 5px solid var(--primaryColor);
     border-radius: 5px;
     background: none;
-    background: url('/images/dropdown.png');
+    background: url('../images/dropdown.png');
     background-repeat: no-repeat;
     background-position: 92% center;
     color: var(--primaryColor);
@@ -367,13 +367,13 @@ input[type=range]:focus::-ms-fill-upper {
         z-index: 1;
     }
     .StackControls-button--play {
-        background-image: url('/images/play.png');
+        background-image: url('../images/play.png');
     }
     .StackControls-button--pause {
-        background-image: url('/images/pause.png');
+        background-image: url('../images/pause.png');
     }
     .StackControls-button--next {
-        background-image: url('/images/next.png');
+        background-image: url('../images/next.png');
     }
     .StackControls-button:first-child {
         box-shadow: 0 0 0 5px var(--secondaryColor), -10px 0 0px 0px var(--secondaryColor);
