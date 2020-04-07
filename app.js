@@ -488,6 +488,8 @@ var UI = {
     init() {
         document.querySelector('.js-loadGame').addEventListener('click', e => {
             var game = document.querySelector('.js-game').value;
+            
+            if (game == 'Pick a ROM') return;
 
             cancelAnimationFrame(welcome.welcomeAnimation);
             if (Gameloop.webAnimationFrame) {

@@ -314,7 +314,7 @@ input[type=range]:focus::-ms-fill-upper {
     }
 
     .StackList-item {
-        padding: 7px 0;
+        padding: 7px 10px 7px 0;
         cursor: pointer;
         list-style-type: none;
     }
